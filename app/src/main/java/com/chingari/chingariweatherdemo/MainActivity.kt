@@ -85,7 +85,7 @@ class MainActivity : AppCompatActivity() {
                 }else{
                     getLocation()
                 }
-                //TODO : Handle Permission Denied case
+                //TODO : Handle Denied case
             }
         }
     }
@@ -103,6 +103,7 @@ class MainActivity : AppCompatActivity() {
         alertDialog.show()
     }
 
+    //TODO: Should'nt be here
     var locationInfo: LocationInfo
         get(){
             var locationInfo =

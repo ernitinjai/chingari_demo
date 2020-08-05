@@ -1,11 +1,12 @@
 package com.chingari.chingariweatherdemo.model
 
 
-//Open weather API response Data Model
+//Open weather API response Data Model , We have just selected bare minimum that fit to our requirment.
 data class WeatherResponse(
 
     val main:Main,
     var time:String
+    //TODO : we need to consider time, it will useful for shorting.
 )
 
 

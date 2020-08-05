@@ -15,7 +15,4 @@ interface WeatherDataDao {
     @Insert
     fun insertAll(vararg wetherData: GetWeatherLocalRepository)
 
-
-
-
 }

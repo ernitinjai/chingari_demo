@@ -19,6 +19,8 @@ class MainViewModel() : ViewModel(), KoinComponent {
 
         netWorkApi.getWeather(object : GetWeatherRequest.OnWeatherDataReceived {
             override fun onSuccess(data: WeatherResponse) {
+                //TODO : Update the room database and adapter subscribe to it to listen for any change and get update the recycler view
+                // -> Room data should sort with date
                 _currentWeather.postValue(data)
             }
 
