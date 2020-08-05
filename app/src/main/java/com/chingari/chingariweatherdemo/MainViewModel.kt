@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.koin.core.KoinComponent
 import com.chingari.chingariweatherdemo.datasource.GetWeatherRequest
+import com.chingari.chingariweatherdemo.datasource.local.WeatherDataDao
 import com.chingari.chingariweatherdemo.model.WeatherResponse
 
 class MainViewModel() : ViewModel(), KoinComponent {

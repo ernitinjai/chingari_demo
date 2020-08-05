@@ -16,6 +16,8 @@ import com.chingari.chingariweatherdemo.util.Constants
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.chingari.chingariweatherdemo.datasource.local.WeatherDataBase
+import com.chingari.chingariweatherdemo.datasource.local.WeatherDataDao
 import com.chingari.chingariweatherdemo.model.WeatherResponse
 import kotlinx.android.synthetic.main.content_weatherdata.*
 
@@ -24,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var viewModel: MainViewModel
     val forcast = ArrayList<WeatherResponse>()
     val adapter = WeatherDataAdapter(forcast)
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
