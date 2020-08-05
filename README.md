@@ -11,4 +11,4 @@ ViewModels
 LiveData
 Room
 
-![alt text](http://url/to/img.png)
+![alt text](https://github.com/ernitinjai/chingari_demo/blob/master/screenshot.png)
