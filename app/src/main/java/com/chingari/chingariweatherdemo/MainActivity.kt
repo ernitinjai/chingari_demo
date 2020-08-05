@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
                     //Permission not granted, lets provide details to user why we need it.
                     showAssistMessage()
                 }
+                //TODO : Handle Permission Denied case
             }
         }
     }
