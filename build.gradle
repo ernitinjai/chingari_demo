@@ -6,6 +6,7 @@ buildscript {
     ext.moshi="1.8.0"
     ext.koin ="2.0.1"
     ext.work="2.2.0"
+    ext.room_version = '2.1.0-alpha01'
     repositories {
         google()
         jcenter()
