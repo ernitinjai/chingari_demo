@@ -1,7 +1,6 @@
 package com.chingari.chingariweatherdemo.network
 
 
-import com.chingari.chingariweatherdemo.MainApplication
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -101,9 +100,7 @@ class RetrofitManager {
 
                 var request = chain.request()
 
-                //restriction to connect to network, only on wifi
-                if (MainApplication.instance.hasNetwork())
-                {
+
                     val cacheControl = CacheControl.Builder()
                         .maxStale(7, TimeUnit.DAYS)
                         .build()
@@ -113,7 +110,6 @@ class RetrofitManager {
                         .removeHeader(CACHE_CONTROL)
                         .cacheControl(cacheControl)
                         .build()
-                }
 
                 return chain.proceed(request)
             }

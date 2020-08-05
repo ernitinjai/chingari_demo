@@ -4,6 +4,8 @@ buildscript {
     ext.retrofit ="2.6.0"
     ext.loggingInterceptor ="4.0.0"
     ext.moshi="1.8.0"
+    ext.koin ="2.0.1"
+    ext.work="2.2.0"
     repositories {
         google()
         jcenter()
