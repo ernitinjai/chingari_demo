@@ -2,8 +2,8 @@ package com.chingari.chingariweatherdemo.datasource
 
 import android.content.Context
 import androidx.lifecycle.LiveData
-import com.chingari.chingariweatherdemo.datasource.local.WeatherModel
 import com.chingari.chingariweatherdemo.datasource.local.WeatherDataBase
+import com.chingari.chingariweatherdemo.datasource.local.WeatherModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
@@ -14,7 +14,7 @@ class Repository {
 
         var weatherDataBase: WeatherDataBase? = null
 
-        var getWeatherData: List<WeatherModel>? = null
+        var getWeatherData: LiveData<List<WeatherModel>>? = null
 
         fun initializeDB(context: Context) : WeatherDataBase {
             return WeatherDataBase.invoke(context)

@@ -7,9 +7,7 @@ import androidx.room.PrimaryKey
 import com.chingari.chingariweatherdemo.model.WeatherResponse
 
 @Entity(tableName = "weather_items")
-data class GetWeatherModel(
-
-
+data class WeatherModel(
         @ColumnInfo(name = "temperature")
         var temperature: String,
         @ColumnInfo(name = "humidity")

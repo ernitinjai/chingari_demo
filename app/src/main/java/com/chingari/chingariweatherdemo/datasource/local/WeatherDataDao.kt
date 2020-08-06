@@ -10,9 +10,9 @@ import androidx.room.Query
 @Dao
 interface WeatherDataDao {
     @Query("SELECT * FROM weather_items")
-    fun getAll(): LiveData<List<GetWeatherLocalRepository>>
+    fun getAll(): LiveData<List<WeatherModel>>
 
     @Insert
-    fun insertAll(vararg wetherData: GetWeatherLocalRepository)
+    fun insertAll(vararg wetherData: WeatherModel)
 
 }
