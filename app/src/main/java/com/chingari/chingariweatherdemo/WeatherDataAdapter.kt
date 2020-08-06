@@ -4,13 +4,15 @@ package com.chingari.chingariweatherdemo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
-import com.chingari.chingariweatherdemo.model.WeatherResponse
+import com.chingari.chingariweatherdemo.datasource.local.WeatherModel
 import kotlinx.android.synthetic.main.weather_data_list_item.view.*
 
-class WeatherDataAdapter(val weatherDataItems: ArrayList<WeatherResponse>) : RecyclerView.Adapter<WeatherDataAdapter.WeatherDataViewHolder>()  {
+class WeatherDataAdapter(var weatherDataItems: List<WeatherModel>) : RecyclerView.Adapter<WeatherDataAdapter.WeatherDataViewHolder>()  {
 
-    fun updateList(updates: List<WeatherResponse>) {
+    fun updateList(updates: List<WeatherModel>) {
+        weatherDataItems = updates
         notifyDataSetChanged()
     }
 
@@ -30,11 +32,11 @@ class WeatherDataAdapter(val weatherDataItems: ArrayList<WeatherResponse>) : Rec
 
     inner class WeatherDataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
-        fun bindItems(item: WeatherResponse) {
+        fun bindItems(item: WeatherModel) {
             //TODO : Ugly approach , get rid from it.
-            itemView.textViewTemp.text = item.main.temp.toString()
-            itemView.textViewHumidity.text = item.main.humidity.toString()
-            itemView.textViewWindspeed.text = item.main.pressure.toString()
+            itemView.textViewTemp.text = item.temperature
+            itemView.textViewHumidity.text = item.humidity
+            itemView.textViewWindspeed.text = item.windspeed
         }
 
     }

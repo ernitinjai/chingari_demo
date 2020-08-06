@@ -6,27 +6,26 @@ import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
-import android.widget.LinearLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.chingari.chingariweatherdemo.util.Constants
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.chingari.chingariweatherdemo.datasource.local.WeatherDataBase
-import com.chingari.chingariweatherdemo.datasource.local.WeatherDataDao
+import com.chingari.chingariweatherdemo.datasource.Repository
+import com.chingari.chingariweatherdemo.datasource.local.WeatherModel
 import com.chingari.chingariweatherdemo.model.WeatherResponse
 import kotlinx.android.synthetic.main.content_weatherdata.*
 
 class MainActivity : AppCompatActivity() {
 
     private lateinit var viewModel: MainViewModel
-    val forcast = ArrayList<WeatherResponse>()
+    val forcast = ArrayList<WeatherModel>()
     val adapter = WeatherDataAdapter(forcast)
-
+    var weatherItems: LiveData<List<WeatherModel>>? =null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         setupPermissions()
         recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recyclerView.adapter = adapter
+        weatherItems = Repository.getWeatherData(this)
     }
 
 
@@ -58,12 +58,26 @@ class MainActivity : AppCompatActivity() {
         viewModel.getCurrentWeatherData(location)
 
         val weatherObserver = Observer<WeatherResponse> { weatherResponse ->
-            forcast.add(weatherResponse)
-            adapter.updateList(forcast)
-        }
+            Repository.insertWeatherData(
+                this,
+                weatherResponse.main.temp.toString(),
+                weatherResponse.main.humidity.toString(),
+                weatherResponse.main.pressure.toString()
+            )
 
+        }
         //register observer to viewmodel, its indepenedent from UI thread
         viewModel._currentWeather.observe(this, weatherObserver)
+
+        //Any update in room database allow UI list to refresh
+        weatherItems?.observe(this, object : Observer<List<WeatherModel>> {
+            override fun onChanged(t: List<WeatherModel>) {
+                adapter.updateList(t)
+            }
+        })
+        //TODO : UI should read database , so offline it could render previous hour data
+
+
 
     }
 
