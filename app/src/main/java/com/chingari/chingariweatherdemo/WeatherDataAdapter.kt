@@ -4,22 +4,30 @@ package com.chingari.chingariweatherdemo
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
+import com.chingari.chingariweatherdemo.databinding.WeatherDataListItemBinding
 import com.chingari.chingariweatherdemo.datasource.local.WeatherModel
-import kotlinx.android.synthetic.main.weather_data_list_item.view.*
 
-class WeatherDataAdapter(var weatherDataItems: List<WeatherModel>) : RecyclerView.Adapter<WeatherDataAdapter.WeatherDataViewHolder>()  {
+class WeatherDataAdapter() : RecyclerView.Adapter<WeatherDataAdapter.WeatherDataViewHolder>()  {
+
+    private val weatherDataItems = mutableListOf<WeatherModel>()
 
     fun updateList(updates: List<WeatherModel>) {
-        weatherDataItems = updates
+        weatherDataItems.clear()
+        weatherDataItems.addAll(updates)
         notifyDataSetChanged()
     }
 
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherDataViewHolder {
-        //TODO : DATA BINDING MISSING HERE
-        val v = LayoutInflater.from(parent.context).inflate(R.layout.weather_data_list_item, parent, false)
-        return WeatherDataViewHolder(v)
+        val inflater = LayoutInflater.from(parent.context)
+
+        val binding = DataBindingUtil.inflate<WeatherDataListItemBinding>(
+            inflater, R.layout.weather_data_list_item, parent, false)
+        return WeatherDataViewHolder(binding)
     }
 
     override fun getItemCount(): Int {
@@ -27,16 +35,18 @@ class WeatherDataAdapter(var weatherDataItems: List<WeatherModel>) : RecyclerVie
     }
 
     override fun onBindViewHolder(holder: WeatherDataViewHolder, position: Int) {
-        holder.bindItems(weatherDataItems[position])
+        holder.bind(weatherDataItems[position])
     }
 
-    inner class WeatherDataViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+    inner class WeatherDataViewHolder(val binding: WeatherDataListItemBinding)
+        : RecyclerView.ViewHolder(binding.root) {
 
-        fun bindItems(item: WeatherModel) {
-            //TODO : Ugly approach , get rid from it.
-            itemView.textViewTemp.text = item.temperature
-            itemView.textViewHumidity.text = item.humidity
-            itemView.textViewWindspeed.text = item.windspeed
+        fun bind(item: WeatherModel) {
+            binding.textViewTemp.text = item.temperature
+            binding.textViewHumidity.text = item.humidity
+            binding.textViewWindspeed.text = item.windspeed
+            //binding.root.setOnClickListener { onItemSelected(item) }
+            binding.executePendingBindings()
         }
 
     }
