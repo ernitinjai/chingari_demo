@@ -7,6 +7,8 @@ buildscript {
     ext.koin ="2.0.1"
     ext.work="2.2.0"
     ext.room_version = '2.1.0-alpha01'
+    ext.junit='4.12'
+    ext.mockito="2.11.0"
     repositories {
         google()
         jcenter()
