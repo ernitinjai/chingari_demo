@@ -9,7 +9,7 @@ import retrofit2.Call
 import retrofit2.http.Header
 import retrofit2.http.Query
 
-interface GetWetherAPI {
+interface WeatherAPI {
 
     @GET("weather")
     fun getData(@Query("lat") lat: String, @Query("lon") lon: String,@Query("appid") appid: String) : Call<WeatherResponse>

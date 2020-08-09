@@ -1,10 +1,11 @@
-package com.chingari.chingariweatherdemo
+package com.chingari.chingariweatherdemo.ui
 
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.chingari.chingariweatherdemo.R
 import com.chingari.chingariweatherdemo.databinding.WeatherDataListItemBinding
 import com.chingari.chingariweatherdemo.datasource.local.WeatherModel
 
@@ -22,7 +23,8 @@ class WeatherDataAdapter() : RecyclerView.Adapter<WeatherDataAdapter.WeatherData
         val inflater = LayoutInflater.from(parent.context)
 
         val binding = DataBindingUtil.inflate<WeatherDataListItemBinding>(
-            inflater, R.layout.weather_data_list_item, parent, false)
+            inflater,
+            R.layout.weather_data_list_item, parent, false)
         return WeatherDataViewHolder(binding)
     }
 

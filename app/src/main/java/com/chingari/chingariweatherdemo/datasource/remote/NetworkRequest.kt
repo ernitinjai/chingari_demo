@@ -9,8 +9,8 @@ import retrofit2.Response
 
 
 
-class GetWeatherRequest : BaseNetworkRequest<GetWetherAPI>(
-    GetWetherAPI::class.java) {
+class NetworkRequest : BaseNetworkRequest<WeatherAPI>(
+    WeatherAPI::class.java) {
 
     fun getWeather(onWeatherDataReceived: OnWeatherDataReceived,location: Location) {
         makeRequest().getData(location.latitude.toString(),location.longitude.toString(), Constants.OPEN_WEATHER_KEY).enqueue(object : retrofit2.Callback<WeatherResponse> {

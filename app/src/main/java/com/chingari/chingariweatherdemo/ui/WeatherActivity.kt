@@ -1,11 +1,9 @@
-package com.chingari.chingariweatherdemo
+package com.chingari.chingariweatherdemo.ui
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.location.Location
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -16,13 +14,14 @@ import com.chingari.chingariweatherdemo.util.Constants
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.chingari.chingariweatherdemo.R
 import com.chingari.chingariweatherdemo.datasource.Repository
 import com.chingari.chingariweatherdemo.datasource.local.WeatherModel
-import com.chingari.chingariweatherdemo.model.WeatherResponse
 import kotlinx.android.synthetic.main.content_weatherdata.*
 import com.chingari.chingariweatherdemo.databinding.ActivityMainBinding
+import com.chingari.chingariweatherdemo.viewmodel.WeatherViewModel
 
-class MainActivity : AppCompatActivity() {
+class WeatherActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
     val adapter = WeatherDataAdapter()
@@ -31,10 +30,18 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.vm = ViewModelProviders.of(this).get(MainViewModel::class.java)
+        binding = DataBindingUtil.setContentView(this,
+            R.layout.activity_main
+        )
+        binding.vm = ViewModelProviders.of(this).get(WeatherViewModel::class.java)
         setupPermissions()
         setUpRecyclerView()
+    }
+
+
+    private fun setUpRecyclerView() {
+        recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+        recyclerView.adapter = adapter
         weatherItems = Repository.getWeatherData(this)
         weatherItems?.observe(this, object : Observer<List<WeatherModel>> {
             override fun onChanged(t: List<WeatherModel>) {
@@ -43,12 +50,6 @@ class MainActivity : AppCompatActivity() {
         })
     }
 
-    private fun setUpRecyclerView() {
-        recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
-        recyclerView.adapter = adapter
-    }
-
-
     private fun setupPermissions() {
         val permission = ContextCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_COARSE_LOCATION)
@@ -56,35 +57,8 @@ class MainActivity : AppCompatActivity() {
         if (permission != PackageManager.PERMISSION_GRANTED) {
             makeRequest()
         }else{
-            getLocation()
+            binding.vm!!.getWeatherData()
         }
-    }
-
-    private fun getLocation(){
-        locationInfo.startLocationFinder()
-    }
-
-    private fun showWeather(location: Location) {
-
-        binding.vm?.getCurrentWeatherData(location)
-
-       /* val weatherObserver = Observer<WeatherResponse> { weatherResponse ->
-            Repository.insertWeatherData(
-                this,
-                weatherResponse.main.temp.toString(),
-                weatherResponse.main.humidity.toString(),
-                weatherResponse.main.pressure.toString()
-            )
-        }*/
-        //register observer to viewmodel, its indepenedent from UI thread
-        //binding.vm?._currentWeather?.observe(this, weatherObserver)
-
-        //Any update in room database allow UI list to refresh
-
-        //TODO : UI should read database , so offline it could render previous hour data
-
-
-
     }
 
 
@@ -103,7 +77,7 @@ class MainActivity : AppCompatActivity() {
                     //Permission not granted, lets provide details to user why we need it.
                     showAssistMessage()
                 }else{
-                    getLocation()
+                    binding.vm!!.getWeatherData()
                 }
                 //TODO : Handle Denied case
             }
@@ -115,35 +89,11 @@ class MainActivity : AppCompatActivity() {
         builder.setTitle(R.string.location_ask_title)
         builder.setMessage(R.string.location_ask_message)
         builder.setIcon(android.R.drawable.ic_dialog_alert)
-        builder.setPositiveButton(getString(R.string.location_ask_button_label)){dialogInterface, which ->
+        builder.setPositiveButton(getString(R.string.location_ask_button_label)){ dialogInterface, which ->
             setupPermissions()
         }
 
         val alertDialog: AlertDialog = builder.create()
         alertDialog.show()
     }
-
-    //TODO: Should'nt be here
-    var locationInfo: LocationInfo
-        get(){
-            var locationInfo =
-                LocationInfo(this, object : LocationInfo.OnLocationDataReceived {
-                    override fun onSuccess(location: Location) {
-                        showWeather(location)
-                    }
-                    //TODO : We havent handle it yet
-                    override fun onFailure() {
-                        Log.d("","")
-                    }
-
-                })
-
-            return locationInfo
-        }
-        set(value){
-            locationInfo = value
-        }
-
-
-
 }
