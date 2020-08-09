@@ -36,9 +36,11 @@ class MainActivity : AppCompatActivity() {
         setupPermissions()
         setUpRecyclerView()
         weatherItems = Repository.getWeatherData(this)
-        weatherItems!!.value?.let {
-            adapter.updateList(it) }
-        Log.d("","")
+        weatherItems?.observe(this, object : Observer<List<WeatherModel>> {
+            override fun onChanged(t: List<WeatherModel>) {
+                adapter.updateList(t)
+            }
+        })
     }
 
     private fun setUpRecyclerView() {
@@ -66,24 +68,19 @@ class MainActivity : AppCompatActivity() {
 
         binding.vm?.getCurrentWeatherData(location)
 
-        val weatherObserver = Observer<WeatherResponse> { weatherResponse ->
+       /* val weatherObserver = Observer<WeatherResponse> { weatherResponse ->
             Repository.insertWeatherData(
                 this,
                 weatherResponse.main.temp.toString(),
                 weatherResponse.main.humidity.toString(),
                 weatherResponse.main.pressure.toString()
             )
-        }
+        }*/
         //register observer to viewmodel, its indepenedent from UI thread
-        binding.vm?._currentWeather?.observe(this, weatherObserver)
+        //binding.vm?._currentWeather?.observe(this, weatherObserver)
 
         //Any update in room database allow UI list to refresh
-        weatherItems?.observe(this, object : Observer<List<WeatherModel>> {
-            override fun onChanged(t: List<WeatherModel>) {
-                adapter.updateList(t)
-            }
 
-        })
         //TODO : UI should read database , so offline it could render previous hour data
 
 

@@ -2,10 +2,8 @@ package com.chingari.chingariweatherdemo
 
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
 import androidx.recyclerview.widget.RecyclerView
 import com.chingari.chingariweatherdemo.databinding.WeatherDataListItemBinding
 import com.chingari.chingariweatherdemo.datasource.local.WeatherModel
@@ -19,8 +17,6 @@ class WeatherDataAdapter() : RecyclerView.Adapter<WeatherDataAdapter.WeatherData
         weatherDataItems.addAll(updates)
         notifyDataSetChanged()
     }
-
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): WeatherDataViewHolder {
         val inflater = LayoutInflater.from(parent.context)
@@ -42,14 +38,10 @@ class WeatherDataAdapter() : RecyclerView.Adapter<WeatherDataAdapter.WeatherData
         : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: WeatherModel) {
-            binding.textViewTemp.text = item.temperature
-            binding.textViewHumidity.text = item.humidity
-            binding.textViewWindspeed.text = item.windspeed
-            binding.textViewDate.text =item.dateCreated
+           binding.item = item
             //binding.root.setOnClickListener { onItemSelected(item) }
             binding.executePendingBindings()
         }
-
     }
 
 }

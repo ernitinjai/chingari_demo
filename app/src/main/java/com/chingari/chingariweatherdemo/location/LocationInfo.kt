@@ -2,13 +2,13 @@ package com.chingari.chingariweatherdemo
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.location.Geocoder
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
 import android.util.Log
+import com.chingari.chingariweatherdemo.datasource.Repository
 
 
 import java.util.Locale
