@@ -7,11 +7,6 @@ import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.os.Looper
-import android.util.Log
-import com.chingari.chingariweatherdemo.datasource.Repository
-
-
-import java.util.Locale
 
 
 @SuppressLint("MissingPermission")
