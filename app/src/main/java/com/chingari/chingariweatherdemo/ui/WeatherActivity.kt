@@ -25,7 +25,7 @@ class WeatherActivity : AppCompatActivity() {
 
     lateinit var binding: ActivityMainBinding
     val adapter = WeatherDataAdapter()
-    var weatherItems: LiveData<List<WeatherModel>>? =null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,7 +43,7 @@ class WeatherActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recyclerView.adapter = adapter
 
-        binding.vm!!.getSavedWeatherData()?.observe(this, object : Observer<List<WeatherModel>> {
+        binding.vm!!.weatherData?.observe(this, object : Observer<List<WeatherModel>> {
             override fun onChanged(t: List<WeatherModel>) {
                 adapter.updateList(t)
             }

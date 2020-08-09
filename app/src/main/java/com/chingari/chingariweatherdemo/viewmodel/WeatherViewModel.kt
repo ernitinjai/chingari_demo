@@ -13,9 +13,12 @@ import com.chingari.chingariweatherdemo.model.WeatherResponse
 class WeatherViewModel @JvmOverloads constructor(app: Application, val networkRequest: NetworkRequest = NetworkRequest()) : ObservableViewModel(app), NetworkRequest.OnWeatherDataReceived {
 
     var networkDataListener: NetworkRequest.OnWeatherDataReceived? = null
+    var weatherData: LiveData<List<WeatherModel>>? =null
 
     init {
         networkDataListener = this
+        weatherData = getSavedWeatherData()
+        startLocationFinder()
     }
 
 
@@ -32,11 +35,11 @@ class WeatherViewModel @JvmOverloads constructor(app: Application, val networkRe
 
     }
 
-    fun startLocationFinder() {
+    private fun startLocationFinder() {
         locationInfo.startLocationFinder()
     }
 
-    fun getSavedWeatherData(): LiveData<List<WeatherModel>> {
+    private fun getSavedWeatherData(): LiveData<List<WeatherModel>> {
         startLocationFinder()
         return Repository.getSavedWeatherData(getApplication())
     }
