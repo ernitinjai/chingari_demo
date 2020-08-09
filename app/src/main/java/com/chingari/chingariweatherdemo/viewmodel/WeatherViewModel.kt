@@ -7,13 +7,13 @@ import androidx.lifecycle.LiveData
 import com.chingari.chingariweatherdemo.LocationInfo
 import com.chingari.chingariweatherdemo.datasource.NetworkRequest
 import com.chingari.chingariweatherdemo.datasource.Repository
-import com.chingari.chingariweatherdemo.datasource.local.WeatherModel
+import com.chingari.chingariweatherdemo.datasource.local.WeatherDataModel
 import com.chingari.chingariweatherdemo.model.WeatherResponse
 
-class WeatherViewModel @JvmOverloads constructor(app: Application, val networkRequest: NetworkRequest = NetworkRequest()) : ObservableViewModel(app), NetworkRequest.OnWeatherDataReceived {
+class WeatherViewModel @JvmOverloads constructor(app: Application,val repository: Repository = Repository() ,val networkRequest: NetworkRequest = NetworkRequest()) : ObservableViewModel(app), NetworkRequest.OnWeatherDataReceived {
 
     var networkDataListener: NetworkRequest.OnWeatherDataReceived? = null
-    var weatherData: LiveData<List<WeatherModel>>? =null
+    var weatherData: LiveData<List<WeatherDataModel>>? =null
 
     init {
         networkDataListener = this
@@ -23,7 +23,7 @@ class WeatherViewModel @JvmOverloads constructor(app: Application, val networkRe
 
 
     override fun onSuccess(data: WeatherResponse) {
-        Repository.insertWeatherData(
+        Repository().insertWeatherData(
             getApplication(),
             data.main.temp.toString(),
             data.main.humidity.toString(),
@@ -39,9 +39,8 @@ class WeatherViewModel @JvmOverloads constructor(app: Application, val networkRe
         locationInfo.startLocationFinder()
     }
 
-    private fun getSavedWeatherData(): LiveData<List<WeatherModel>> {
-        startLocationFinder()
-        return Repository.getSavedWeatherData(getApplication())
+    private fun getSavedWeatherData(): LiveData<List<WeatherDataModel>> {
+        return Repository().getSavedWeatherData(getApplication())
     }
 
 
@@ -55,6 +54,7 @@ class WeatherViewModel @JvmOverloads constructor(app: Application, val networkRe
             var locationInfo =
                 LocationInfo(getApplication(), object : LocationInfo.OnLocationDataReceived {
                     override fun onSuccess(location: Location) {
+                        locationInfo.stopLocationFinder()
                         getCurrentWeatherData(location)
                     }
                     //TODO : We havent handle it yet

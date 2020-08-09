@@ -7,13 +7,13 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.chingari.chingariweatherdemo.R
 import com.chingari.chingariweatherdemo.databinding.WeatherDataListItemBinding
-import com.chingari.chingariweatherdemo.datasource.local.WeatherModel
+import com.chingari.chingariweatherdemo.datasource.local.WeatherDataModel
 
 class WeatherDataAdapter() : RecyclerView.Adapter<WeatherDataAdapter.WeatherDataViewHolder>()  {
 
-    private val weatherDataItems = mutableListOf<WeatherModel>()
+    private val weatherDataItems = mutableListOf<WeatherDataModel>()
 
-    fun updateList(updates: List<WeatherModel>) {
+    fun updateList(updates: List<WeatherDataModel>) {
         weatherDataItems.clear()
         weatherDataItems.addAll(updates)
         notifyDataSetChanged()
@@ -39,7 +39,7 @@ class WeatherDataAdapter() : RecyclerView.Adapter<WeatherDataAdapter.WeatherData
     inner class WeatherDataViewHolder(val binding: WeatherDataListItemBinding)
         : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: WeatherModel) {
+        fun bind(item: WeatherDataModel) {
            binding.item = item
             //binding.root.setOnClickListener { onItemSelected(item) }
             binding.executePendingBindings()

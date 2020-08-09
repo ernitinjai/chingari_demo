@@ -11,7 +11,7 @@
 
     <variable
         name="item"
-        type="com.chingari.chingariweatherdemo.datasource.local.WeatherModel" />
+        type="com.chingari.chingariweatherdemo.datasource.local.WeatherDataModel" />
 </data>
 <androidx.cardview.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"

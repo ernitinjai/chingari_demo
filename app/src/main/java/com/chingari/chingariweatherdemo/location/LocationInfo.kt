@@ -24,20 +24,20 @@ class LocationInfo(
     init{
         onLocationDataaReceived = onLocationDataReceived
     }
-    val locationManager : LocationManager
+    val locationManager : LocationManager?
     get(){
-        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val locationManager = context.getSystemService(Context.LOCATION_SERVICE) as? LocationManager
         return locationManager
     }
 
     fun startLocationFinder(){
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
+        locationManager?.requestLocationUpdates(LocationManager.NETWORK_PROVIDER,
             MIN_TIME_BW_UPDATES,
             MIN_DISTANCE_CHANGE_FOR_UPDATES.toFloat(), this, Looper.getMainLooper())
     }
 
     fun stopLocationFinder(){
-        locationManager.removeUpdates(this)
+        locationManager?.removeUpdates(this)
     }
 
 

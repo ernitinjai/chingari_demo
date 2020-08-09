@@ -8,7 +8,7 @@ import com.chingari.chingariweatherdemo.model.WeatherResponse
 import java.util.*
 
 @Entity(tableName = "weather_items")
-data class WeatherModel(
+data class WeatherDataModel(
         @ColumnInfo(name = "temperature")
         var temperature: String,
         @ColumnInfo(name = "humidity")

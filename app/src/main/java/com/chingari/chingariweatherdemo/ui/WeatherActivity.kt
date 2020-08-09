@@ -8,15 +8,13 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.Observer
 import com.chingari.chingariweatherdemo.util.Constants
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.chingari.chingariweatherdemo.R
-import com.chingari.chingariweatherdemo.datasource.Repository
-import com.chingari.chingariweatherdemo.datasource.local.WeatherModel
+import com.chingari.chingariweatherdemo.datasource.local.WeatherDataModel
 import kotlinx.android.synthetic.main.content_weatherdata.*
 import com.chingari.chingariweatherdemo.databinding.ActivityMainBinding
 import com.chingari.chingariweatherdemo.viewmodel.WeatherViewModel
@@ -43,8 +41,8 @@ class WeatherActivity : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recyclerView.adapter = adapter
 
-        binding.vm!!.weatherData?.observe(this, object : Observer<List<WeatherModel>> {
-            override fun onChanged(t: List<WeatherModel>) {
+        binding.vm?.weatherData?.observe(this, object : Observer<List<WeatherDataModel>> {
+            override fun onChanged(t: List<WeatherDataModel>) {
                 adapter.updateList(t)
             }
         })
