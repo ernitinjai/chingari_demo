@@ -35,15 +35,15 @@ class WeatherActivity : AppCompatActivity() {
         )
         binding.vm = ViewModelProviders.of(this).get(WeatherViewModel::class.java)
         setupPermissions()
-        setUpRecyclerView()
+
     }
 
 
     private fun setUpRecyclerView() {
         recyclerView.layoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
         recyclerView.adapter = adapter
-        weatherItems = Repository.getWeatherData(this)
-        weatherItems?.observe(this, object : Observer<List<WeatherModel>> {
+
+        binding.vm!!.getSavedWeatherData()?.observe(this, object : Observer<List<WeatherModel>> {
             override fun onChanged(t: List<WeatherModel>) {
                 adapter.updateList(t)
             }
@@ -57,7 +57,7 @@ class WeatherActivity : AppCompatActivity() {
         if (permission != PackageManager.PERMISSION_GRANTED) {
             makeRequest()
         }else{
-            binding.vm!!.getWeatherData()
+            setUpRecyclerView()
         }
     }
 
@@ -77,7 +77,7 @@ class WeatherActivity : AppCompatActivity() {
                     //Permission not granted, lets provide details to user why we need it.
                     showAssistMessage()
                 }else{
-                    binding.vm!!.getWeatherData()
+                    setUpRecyclerView()
                 }
                 //TODO : Handle Denied case
             }

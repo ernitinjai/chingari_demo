@@ -10,7 +10,8 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
 import java.util.*
 
-class Repository() {
+class Repository(val networkRepository: NetworkRequest = NetworkRequest()) {
+
 
     companion object {
 
@@ -34,7 +35,7 @@ class Repository() {
 
         }
 
-        fun getWeatherData(context: Context) : LiveData<List<WeatherModel>> {
+        fun getSavedWeatherData(context: Context) : LiveData<List<WeatherModel>> {
              weatherDataBase = initializeDB(context)
              return weatherDataBase!!.weatherDao().getAll()
 

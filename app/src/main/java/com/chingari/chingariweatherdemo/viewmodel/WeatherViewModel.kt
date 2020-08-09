@@ -3,21 +3,16 @@ package com.chingari.chingariweatherdemo.viewmodel
 import android.app.Application
 import android.location.Location
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import androidx.lifecycle.LiveData
 import com.chingari.chingariweatherdemo.LocationInfo
-import org.koin.core.KoinComponent
 import com.chingari.chingariweatherdemo.datasource.NetworkRequest
 import com.chingari.chingariweatherdemo.datasource.Repository
+import com.chingari.chingariweatherdemo.datasource.local.WeatherModel
 import com.chingari.chingariweatherdemo.model.WeatherResponse
 
 class WeatherViewModel @JvmOverloads constructor(app: Application, val networkRequest: NetworkRequest = NetworkRequest()) : ObservableViewModel(app), NetworkRequest.OnWeatherDataReceived {
 
     var networkDataListener: NetworkRequest.OnWeatherDataReceived? = null
-
-    val _currentWeather: MutableLiveData<WeatherResponse> by lazy {
-        MutableLiveData<WeatherResponse>()
-    }
 
     init {
         networkDataListener = this
@@ -25,7 +20,6 @@ class WeatherViewModel @JvmOverloads constructor(app: Application, val networkRe
 
 
     override fun onSuccess(data: WeatherResponse) {
-        _currentWeather.postValue(data)
         Repository.insertWeatherData(
             getApplication(),
             data.main.temp.toString(),
@@ -38,13 +32,18 @@ class WeatherViewModel @JvmOverloads constructor(app: Application, val networkRe
 
     }
 
-    fun getWeatherData() {
+    fun startLocationFinder() {
         locationInfo.startLocationFinder()
+    }
+
+    fun getSavedWeatherData(): LiveData<List<WeatherModel>> {
+        startLocationFinder()
+        return Repository.getSavedWeatherData(getApplication())
     }
 
 
 
-    private fun showWeather(location: Location) {
+    private fun getCurrentWeatherData(location: Location) {
         networkRequest.getWeather(networkDataListener!!,location)
     }
 
@@ -53,7 +52,7 @@ class WeatherViewModel @JvmOverloads constructor(app: Application, val networkRe
             var locationInfo =
                 LocationInfo(getApplication(), object : LocationInfo.OnLocationDataReceived {
                     override fun onSuccess(location: Location) {
-                        showWeather(location)
+                        getCurrentWeatherData(location)
                     }
                     //TODO : We havent handle it yet
                     override fun onFailure() {
@@ -67,8 +66,6 @@ class WeatherViewModel @JvmOverloads constructor(app: Application, val networkRe
         set(value){
             locationInfo = value
         }
-
-
 
 }
 
