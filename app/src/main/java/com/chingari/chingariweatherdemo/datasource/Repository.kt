@@ -39,4 +39,11 @@ open class Repository() {
              return weatherDataBase!!.weatherDao().getAll()
 
         }
+
+       fun getLatestWeatherData(context: Context) : WeatherDataModel {
+             weatherDataBase = initializeDB(context)
+             var weatherDataModel = weatherDataBase!!.weatherDao().getLatest()
+             return weatherDataModel
+
+        }
 }

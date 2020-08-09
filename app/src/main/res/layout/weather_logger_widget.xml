@@ -4,12 +4,30 @@
   android:layout_height="match_parent"
   android:gravity="center"
   android:orientation="vertical"
+    android:background="@color/cardview_light_background"
   android:padding="@dimen/widget_margin">
 
   <TextView
       android:layout_width="match_parent"
-      android:layout_height="match_parent"
-    android:id="@+id/appwidget_text"/>
+      android:layout_height="wrap_content"
+      android:id="@+id/appwidget_text"/>
+
+
+  <TextView
+      android:id="@+id/appwidget_temp_label"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textColor="@color/colorPrimary"
+      android:text="Temprature"
+    ></TextView>
+
+  <TextView
+      android:id="@+id/appwidget_temp"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:textColor="@color/colorPrimary"
+      android:text="Temprature"
+      ></TextView>
 
 
 

@@ -14,4 +14,7 @@ interface WeatherDataDao {
     @Insert
     fun insert(vararg wetherData: WeatherDataModel)
 
+    @Query("SELECT * FROM weather_items ORDER BY Id DESC LIMIT 1")
+    fun getLatest():WeatherDataModel
+
 }

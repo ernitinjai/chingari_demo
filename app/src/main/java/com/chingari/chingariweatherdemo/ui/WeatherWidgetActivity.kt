@@ -6,7 +6,10 @@ import android.appwidget.AppWidgetProvider
 import android.content.Context
 import android.content.Intent
 import android.widget.RemoteViews
+import androidx.lifecycle.Observer
 import com.chingari.chingariweatherdemo.R
+import com.chingari.chingariweatherdemo.datasource.Repository
+import com.chingari.chingariweatherdemo.datasource.local.WeatherDataModel
 import com.chingari.chingariweatherdemo.service.WeatherService
 import com.chingari.chingariweatherdemo.util.WeatherPersistence
 
@@ -38,9 +41,11 @@ class WeatherWidgetActivity : AppWidgetProvider() {
 
       val widgetText = weatherPersistence.loadTitlePref().toString()
 
+      val latestWeatherData = Repository().getLatestWeatherData(context)
+
       // Construct the RemoteViews object
       val views = RemoteViews(context.packageName, R.layout.weather_logger_widget)
-      views.setTextViewText(R.id.appwidget_text, widgetText)
+      views.setTextViewText(R.id.appwidget_temp, latestWeatherData.temperature)
 
       
       // Instruct the widget manager to update the widget
