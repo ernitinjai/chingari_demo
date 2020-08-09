@@ -9,7 +9,7 @@ import androidx.room.Query
 
 @Dao
 interface WeatherDataDao {
-    @Query("SELECT * FROM weather_items")
+    @Query("SELECT * FROM weather_items ORDER BY date DESC")
     fun getAll(): LiveData<List<WeatherModel>>
 
     @Insert

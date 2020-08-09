@@ -8,6 +8,7 @@
 
     <import type="com.chingari.chingariweatherdemo.util.DateUtils" />
 
+
     <variable
         name="item"
         type="com.chingari.chingariweatherdemo.model.WeatherResponse" />
@@ -16,7 +17,7 @@
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_view"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="130dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
@@ -31,13 +32,32 @@
             android:padding="8dp">
 
             <TextView
-                android:id="@+id/textViewTempLabel"
+                android:id="@+id/textViewDateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@+id/textViewHumidity"
+                card_view:layout_constraintTop_toBottomOf="@+id/textViewTempLabel"
+                android:text="Date : " />
+
+            <TextView
+                android:id="@+id/textViewDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintStart_toEndOf="@id/textViewDateLabel"
+                app:layout_constraintTop_toTopOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/textViewDateLabel"
+                tools:text="293.87" />
+
+            <TextView
+                android:id="@+id/textViewTempLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                card_view:layout_constraintTop_toBottomOf="@+id/textViewDateLabel"
                 android:text="Temp : " />
 
             <TextView
@@ -46,8 +66,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 app:layout_constraintStart_toEndOf="@id/textViewTempLabel"
-                app:layout_constraintTop_toTopOf="parent"
-                card_view:layout_constraintTop_toBottomOf="@+id/textViewHumidity"
+                card_view:layout_constraintTop_toBottomOf="@+id/textViewDateLabel"
                 tools:text="293.87" />
 
             <TextView

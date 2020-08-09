@@ -4,9 +4,11 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import com.chingari.chingariweatherdemo.datasource.local.WeatherModel
 import com.chingari.chingariweatherdemo.datasource.local.WeatherDataBase
+import com.chingari.chingariweatherdemo.util.DateUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import java.util.*
 
 class Repository {
 
@@ -23,7 +25,10 @@ class Repository {
             weatherDataBase = initializeDB(context)
 
             CoroutineScope(IO).launch {
-                val weather = WeatherModel(temperature, humidity,windspeed)
+                val dateCreated: Date = Date()
+                var dateutil:DateUtils = DateUtils()
+                var dateString: String = dateutil.formatDate(dateCreated)
+                val weather = WeatherModel(temperature, humidity,windspeed,dateString)
                 weatherDataBase!!.weatherDao().insertAll(weather)
             }
 

@@ -5,6 +5,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.chingari.chingariweatherdemo.model.WeatherResponse
+import java.util.*
 
 @Entity(tableName = "weather_items")
 data class WeatherModel(
@@ -13,7 +14,9 @@ data class WeatherModel(
         @ColumnInfo(name = "humidity")
         var humidity: String,
         @ColumnInfo(name = "windspeed")
-        var windspeed: String
+        var windspeed: String,
+        @ColumnInfo(name = "date")
+        var dateCreated: String
     ){
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "id")

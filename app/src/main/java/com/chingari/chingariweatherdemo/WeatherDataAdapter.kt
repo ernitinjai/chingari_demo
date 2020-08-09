@@ -45,6 +45,7 @@ class WeatherDataAdapter() : RecyclerView.Adapter<WeatherDataAdapter.WeatherData
             binding.textViewTemp.text = item.temperature
             binding.textViewHumidity.text = item.humidity
             binding.textViewWindspeed.text = item.windspeed
+            binding.textViewDate.text =item.dateCreated
             //binding.root.setOnClickListener { onItemSelected(item) }
             binding.executePendingBindings()
         }

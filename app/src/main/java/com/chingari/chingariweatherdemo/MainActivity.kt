@@ -36,6 +36,8 @@ class MainActivity : AppCompatActivity() {
         setupPermissions()
         setUpRecyclerView()
         weatherItems = Repository.getWeatherData(this)
+        weatherItems!!.value?.let {
+            adapter.updateList(it) }
         Log.d("","")
     }
 
@@ -71,7 +73,6 @@ class MainActivity : AppCompatActivity() {
                 weatherResponse.main.humidity.toString(),
                 weatherResponse.main.pressure.toString()
             )
-
         }
         //register observer to viewmodel, its indepenedent from UI thread
         binding.vm?._currentWeather?.observe(this, weatherObserver)
@@ -81,6 +82,7 @@ class MainActivity : AppCompatActivity() {
             override fun onChanged(t: List<WeatherModel>) {
                 adapter.updateList(t)
             }
+
         })
         //TODO : UI should read database , so offline it could render previous hour data
 
